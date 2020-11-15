@@ -92,6 +92,7 @@
     </dependencies>
 
     <build>
+        <finalName>short-link</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
