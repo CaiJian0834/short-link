@@ -65,7 +65,7 @@ cxj.redisson.database=0
 项目打包
 
 ```shell
-mvn clean package -Dmaven.test.skip=true 
+mvn -U clean package -Dmaven.test.skip=true -Dautoconfig.skip -Ptesting 
 ```
 
 启动项目
