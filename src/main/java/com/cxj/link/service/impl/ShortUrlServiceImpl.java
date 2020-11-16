@@ -151,7 +151,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         RLock lock = redisService.getLock(lockKey);
 
         try {
-            //todo 加分布式锁进行 写库
+            // 加分布式锁进行 写库
             lock.lockInterruptibly(NumberConstant.REDIS_EXPIRE_SECOND_3, TimeUnit.SECONDS);
 
             // 校验并发下hash存在重复的情况
@@ -287,9 +287,12 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             return JSON.parseObject(value, ShortLinkUrlHistoryEntity.class);
         }
 
-        //todo 布隆过滤器判断key是否存在
+        // 布隆过滤器判断key是否存在
         if (CXJ_SHORT_LINK_REDIS_BLOOM) {
-
+            boolean bloomFlag = redisService.bfExists(RedisKeyConstant.CXJ_SHORT_LINK_URL_BLOOM_FILTER, hash);
+            if (!bloomFlag) {
+                return null;
+            }
         }
 
         // 获取db信息
@@ -340,7 +343,8 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
         // 根据配置是否使用 布隆过滤器
         if (CXJ_SHORT_LINK_REDIS_BLOOM) {
-            //todo 设置布隆过滤器
+            // 设置布隆过滤器
+            redisService.bfAdd(RedisKeyConstant.CXJ_SHORT_LINK_URL_BLOOM_FILTER, entity.getHashValue());
         }
 
         // 设置redis缓存

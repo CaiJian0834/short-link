@@ -15,6 +15,12 @@ public class RedisKeyConstant {
      */
     public static final String CXJ_SHORT_LINK_URL_HASH = "cxj:short:link:url:ent:%s";
 
+    /**
+     * 短链接
+     * blom filter
+     */
+    public static final String CXJ_SHORT_LINK_URL_BLOOM_FILTER = "cxj:short:link:url:bloom:filter";
+
 
     /**
      * 短链接

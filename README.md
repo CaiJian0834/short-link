@@ -13,15 +13,28 @@
 | OpenResty   | 代理 + 一级缓存  | TODO |
 | Guava | 一级缓存      | 已完成 |
 | Redisson | 分布式锁        | 已完成   |
-| Redis | 布隆过滤器，判断hash是否存在 | TODO |
-
-
-
-## 系统设计
+| Redis | 布隆过滤器，判断hash是否存在 | 已完成 |
 
 
 
 ## 快速开始
+
+数据库初始化：
+
+```mysql
+CREATE TABLE `shortlink_url_history` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `hash_value` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'hash码',
+  `hash_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '短链接',
+  `really_url` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '原url',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
+  `end_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
+  `end_time_number` int NOT NULL DEFAULT '0' COMMENT '失效时间 单位：分钟',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `hash_value` (`hash_value`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='短链接生成记录';
+```
 
 配置文件说明：
 
@@ -76,9 +89,21 @@ java -jar short-link.jar
 
 
 
-## 贡献
+## 系统设计
+
+生成短链接
 
 
+
+短链接访问
+
+
+
+hash码查询原链接
+
+
+
+访问统计
 
 
 

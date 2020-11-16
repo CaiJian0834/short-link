@@ -130,4 +130,8 @@ public interface RedisService {
 
     RLock getLock(String key);
 
+    boolean bfAdd(String key, String value);
+
+    boolean bfExists(String key, String value);
+
 }

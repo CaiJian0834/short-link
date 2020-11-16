@@ -355,8 +355,22 @@ public class RedissonRedisService implements RedisService {
     }
 
     @Override
-    public RLock getLock(String key){
+    public RLock getLock(String key) {
         return redissonClient.getLock(key);
+    }
+
+    @Override
+    public boolean bfAdd(String key, String value) {
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(key);
+        bloomFilter.tryInit(429496729L, 0.01);
+        return bloomFilter.add(value);
+    }
+
+    @Override
+    public boolean bfExists(String key, String value) {
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(key);
+        bloomFilter.tryInit(429496729L, 0.01);
+        return bloomFilter.contains(value);
     }
 
 
