@@ -107,7 +107,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         }
 
         // 去除前后空格
-        String url = StringUtils.trim(dto.getUrl()).toLowerCase();
+        String url = StringUtils.trim(dto.getUrl());
 
         //判断 url 是否是Http https 开头，否则去拼接默认的protocol
         if (!isStartWithHttpOrHttps(url)) {
@@ -257,10 +257,25 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         return ApiResultModel.success();
     }
 
+    /**
+     * 对数据进行过滤
+     *
+     * @param value
+     * @return
+     */
+    private ShortLinkUrlHistoryEntity filter(String value) {
+        ShortLinkUrlHistoryEntity entity = JSON.parseObject(value, ShortLinkUrlHistoryEntity.class);
+
+        if (entity.getEndTime().getTime() > System.currentTimeMillis()) {
+            return entity;
+        }
+        return null;
+    }
 
     /**
      * 获取表对象
      * 走缓存
+     *
      * @param hash
      * @return
      */
@@ -276,7 +291,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         value = LoadingCacheUtil.get(hashKey);
 
         if (StringUtils.isNotEmpty(value)) {
-            return JSON.parseObject(value, ShortLinkUrlHistoryEntity.class);
+            return filter(value);
         }
 
         // 获取redis缓存
@@ -284,7 +299,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
         if (StringUtils.isNotEmpty(value)) {
             LoadingCacheUtil.set(hashKey, value);
-            return JSON.parseObject(value, ShortLinkUrlHistoryEntity.class);
+            return filter(value);
         }
 
         // 布隆过滤器判断key是否存在
@@ -313,15 +328,16 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     /**
      * 获取表对象
      * 走db
+     *
      * @param hash
      * @return
      */
-    private ShortLinkUrlHistoryEntity get(String hash){
+    private ShortLinkUrlHistoryEntity get(String hash) {
 
         QueryWrapper<ShortLinkUrlHistoryEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ShortLinkUrlHistoryEntity::getHashValue,hash);
-        queryWrapper.lambda().eq(ShortLinkUrlHistoryEntity::getStatus,NumberConstant.STATUS_YES);
-        queryWrapper.lambda().ge(ShortLinkUrlHistoryEntity::getEndTime,NumberConstant.STATUS_YES);
+        queryWrapper.lambda().eq(ShortLinkUrlHistoryEntity::getHashValue, hash);
+        queryWrapper.lambda().eq(ShortLinkUrlHistoryEntity::getStatus, NumberConstant.STATUS_YES);
+        queryWrapper.lambda().ge(ShortLinkUrlHistoryEntity::getEndTime, NumberConstant.STATUS_YES);
 
         List<ShortLinkUrlHistoryEntity> list = shortlinkUrlHistoryMapper.selectList(queryWrapper);
 
@@ -331,7 +347,6 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
         return list.get(NumberConstant.INT_0);
     }
-
 
 
     /**
