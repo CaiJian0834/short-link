@@ -147,7 +147,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             count++;
             log.warn("重试，次数:[{}]", count);
         }
-        String lockKey = "";
+        String lockKey = "short:link:create:url:lock:" + hash;
         RLock lock = redisService.getLock(lockKey);
 
         try {
