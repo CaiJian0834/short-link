@@ -72,7 +72,7 @@ public class ControllerLogAop {
         boolean isController = false;
         Controller controller = target.getAnnotation(Controller.class);
         RestController restController = target.getAnnotation(RestController.class);
-        if ( controller != null || restController != null) {
+        if (controller != null || restController != null) {
             isController = true;
         }
 
