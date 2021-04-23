@@ -130,6 +130,7 @@ public class DateUtil {
      * <24小时    => X小时前
      * <8天       => X天前
      * 其他       => yyyy-MM-dd HH:mm
+     *
      * @param dt
      * @return
      */
@@ -145,11 +146,9 @@ public class DateUtil {
             desc = minute + "分钟前";
         } else if (hour < 24) {
             desc = hour + "小时前";
-        }
-        else if (day > 0 && day < 8) {
+        } else if (day > 0 && day < 8) {
             desc = day + "天前";
-        }
-        else {
+        } else {
             desc = getDateTimeFormat().format(dt);
         }
         return desc;

@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * 提取exception信息
+ *
+ * @author caijian
+ */
 public class LogExceptionStackTrace {
     public LogExceptionStackTrace() {
     }

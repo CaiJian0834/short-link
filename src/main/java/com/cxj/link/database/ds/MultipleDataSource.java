@@ -15,9 +15,9 @@ public class MultipleDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        Object key = DataSourceContext.getCustomerType();
+        String key = DataSourceContext.getCustomerType();
         if (key != null) {
-            logger.info("当前线程使用的数据源标识为 [" + key.toString() + "].");
+            logger.info("当前线程使用的数据源标识为 [" + key + "].");
         }
         return key;
     }

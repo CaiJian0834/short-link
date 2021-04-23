@@ -17,7 +17,6 @@ public class LoadingCacheUtil {
 
     private static LoadingCache<String, String> loadingCache;
 
-
     static {
         loadingCache = CacheBuilder.newBuilder()
                 .expireAfterAccess(NumberConstant.REDIS_EXPIRE_MINUTE, TimeUnit.SECONDS)
@@ -31,6 +30,7 @@ public class LoadingCacheUtil {
 
     /**
      * 获取本地缓存
+     *
      * @param key
      * @return
      */
@@ -47,6 +47,7 @@ public class LoadingCacheUtil {
 
     /**
      * 设置本地缓存
+     *
      * @param key
      * @param value
      */

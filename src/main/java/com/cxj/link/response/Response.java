@@ -2,7 +2,7 @@ package com.cxj.link.response;
 
 public class Response<T> {
     public static final String SUCCESS = "Success";
-    public static final String FAILED = "Failed";
+    public static final String FAIL = "Fail";
 
 
     private String code;
@@ -25,11 +25,11 @@ public class Response<T> {
         this.msg = msg;
     }
 
-    public static Response success(Object data){
+    public static Response success(Object data) {
         return new Response(data);
     }
 
-    public static Response failed(String code, String msg){
+    public static Response failed(String code, String msg) {
         return new Response(code, msg);
     }
 

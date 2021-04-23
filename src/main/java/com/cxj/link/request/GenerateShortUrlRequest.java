@@ -5,6 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 入参model
+ *
+ * @author caijian
+ */
 @Data
 public class GenerateShortUrlRequest {
     /**
@@ -12,6 +17,5 @@ public class GenerateShortUrlRequest {
      */
     @NotNull
     private String url;
-
 
 }

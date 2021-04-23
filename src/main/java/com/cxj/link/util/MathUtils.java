@@ -2,6 +2,11 @@ package com.cxj.link.util;
 
 import java.util.Stack;
 
+/**
+ * 进制转换
+ *
+ * @author caijian
+ */
 public class MathUtils {
 
     private static char[] charSet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

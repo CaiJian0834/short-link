@@ -20,7 +20,6 @@ public class ShortLinkInfoVO {
      */
     private Date endTime;
 
-
     public Long getId() {
         return id;
     }

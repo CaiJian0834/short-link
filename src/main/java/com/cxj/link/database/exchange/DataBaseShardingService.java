@@ -17,5 +17,4 @@ public interface DataBaseShardingService {
      */
     String exchange(Object[] params);
 
-
 }

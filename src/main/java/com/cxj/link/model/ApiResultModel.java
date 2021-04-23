@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 /**
  * 返回结果包装对象
+ *
  * @author cxj
  * @emall 735374036@qq.com
  */

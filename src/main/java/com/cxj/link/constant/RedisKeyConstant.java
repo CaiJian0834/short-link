@@ -6,8 +6,6 @@ package com.cxj.link.constant;
  */
 public class RedisKeyConstant {
 
-
-
     /**
      * 短链接
      * 已生成缓存
@@ -21,13 +19,11 @@ public class RedisKeyConstant {
      */
     public static final String CXJ_SHORT_LINK_URL_BLOOM_FILTER = "cxj:short:link:url:bloom:filter";
 
-
     /**
      * 短链接
      * 访问统计
      * id
      */
     public static final String CXJ_SHORT_LINK_URL_HASH_STATISTICS = "cxj:short:link:url:statistics:%s";
-
 
 }

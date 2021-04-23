@@ -2,6 +2,7 @@ package com.cxj.link.model;
 
 /**
  * 短链接生成入参
+ *
  * @author cxj
  * @emall 735374036@qq.com
  */
