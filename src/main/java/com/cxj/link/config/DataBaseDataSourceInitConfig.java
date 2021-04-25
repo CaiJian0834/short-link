@@ -50,7 +50,7 @@ public class DataBaseDataSourceInitConfig {
 
     @Bean
     public Map<Object, Object> dataSourceCollection() {
-        Map<Object, Object> datasource = new ConcurrentHashMap();
+        Map<Object, Object> datasource = new ConcurrentHashMap<>();
 
         dataBaseDataSourceProperties.getConfig().forEach((dbName, dbConfig) -> {
 
@@ -76,12 +76,12 @@ public class DataBaseDataSourceInitConfig {
      * @return
      */
     @Bean
-    public AbstractRoutingDataSource dataSource() throws SQLException {
+    public AbstractRoutingDataSource dataSource() {
         MultipleDataSource dynamicDataSource = new MultipleDataSource();
         dynamicDataSource.setTargetDataSources(dataSourceCollection());
         Object defaultDataSource = dataSourceCollection().get(TARGET_DATASOURCE);
         if (null == defaultDataSource) {
-            throw new RuntimeException("请设置默认数据源[isDefaultTarget属性为true]");
+            throw new IllegalArgumentException("请设置默认数据源[isDefaultTarget属性为true]");
         }
         dynamicDataSource.setDefaultTargetDataSource(defaultDataSource);
         return dynamicDataSource;
@@ -97,10 +97,9 @@ public class DataBaseDataSourceInitConfig {
     private DataSource getDataSource(DataBaseConfigProperties data) throws SQLException {
 
         switch (dataSourcePool) {
-            case "DruidDataSource":
-                return getDriverManagerDruidDataSource(data);
             case "HikariDataSource":
                 return getDriverManagerHikariDataSource(data);
+            case "DruidDataSource":
             default:
                 return getDriverManagerDruidDataSource(data);
         }
@@ -138,20 +137,20 @@ public class DataBaseDataSourceInitConfig {
     /**
      * druid数据源
      *
-     * @param data
+     * @param dataBaseConfigProperties
      * @return
      * @throws SQLException
      */
-    private DruidDataSource getDriverManagerDruidDataSource(DataBaseConfigProperties data) throws SQLException {
-        if (null == data) {
+    private DruidDataSource getDriverManagerDruidDataSource(DataBaseConfigProperties dataBaseConfigProperties) throws SQLException {
+        if (null == dataBaseConfigProperties) {
             return null;
         }
 
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setDriverClassName(data.getDriverClassName());
-        druidDataSource.setUrl(data.getUrl());
-        druidDataSource.setUsername(data.getUsername());
-        druidDataSource.setPassword(data.getPassword());
+        druidDataSource.setDriverClassName(dataBaseConfigProperties.getDriverClassName());
+        druidDataSource.setUrl(dataBaseConfigProperties.getUrl());
+        druidDataSource.setUsername(dataBaseConfigProperties.getUsername());
+        druidDataSource.setPassword(dataBaseConfigProperties.getPassword());
         druidDataSource.setMaxActive(300);
         druidDataSource.setMaxWait(60000);
 
@@ -167,7 +166,7 @@ public class DataBaseDataSourceInitConfig {
         druidDataSource.setTestOnBorrow(true);
         druidDataSource.setUseUnfairLock(true);
         druidDataSource.setValidationQuery("select 1");
-        List<String> connectionInitSqls = new ArrayList();
+        List<String> connectionInitSqls = new ArrayList<>();
         connectionInitSqls.add("set names utf8mb4");
         druidDataSource.setConnectionInitSqls(connectionInitSqls);
 

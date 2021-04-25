@@ -1,6 +1,5 @@
 package com.cxj.link.properties;
 
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.HashMap;

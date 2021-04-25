@@ -18,5 +18,4 @@ public class ThreadPoolTaskExecutorConfig {
         return threadPoolTaskExecutor;
     }
 
-
 }

@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 
 
 /**
+ * 读写分离
  * @author cxj
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

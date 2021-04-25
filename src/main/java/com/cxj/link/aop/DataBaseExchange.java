@@ -30,7 +30,7 @@ public class DataBaseExchange {
     public static final String POINT_STRING = "@within(com.cxj.link.annotation.ShardingDataSource) || @annotation(com.cxj.link.annotation.ShardingDataSource)";
 
     @Pointcut(value = POINT_STRING)
-    public void point() {
+    public void point() { // default implementation ignored
     }
 
     @After(value = "point()")
@@ -39,7 +39,7 @@ public class DataBaseExchange {
     }
 
     @Before(value = "point()")
-    public void before(JoinPoint joinPoint) throws Exception {
+    public void before(JoinPoint joinPoint) throws InstantiationException, IllegalAccessException {
         MethodSignature msj = ((MethodSignature) joinPoint.getSignature());
         Method declaredMethod = msj.getMethod();
 

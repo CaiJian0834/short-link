@@ -27,6 +27,8 @@ import java.util.Arrays;
 @EnableConfigurationProperties(RedissonProperties.class)
 public class RedissonClientConfig {
 
+    private final static String REDIS_AGREEMENT = "redis://";
+
     @Autowired
     private RedissonProperties redissonProperties;
 
@@ -46,7 +48,7 @@ public class RedissonClientConfig {
                 .setTimeout(redissonProperties.getTimeout())
                 .setConnectionPoolSize(redissonProperties.getConnectionPoolSize())
                 .setConnectionMinimumIdleSize(redissonProperties.getConnectionMinimumIdleSize())
-                .setAddress("redis://" + redissonProperties.getHost() + ":" + redissonProperties.getPort());
+                .setAddress(REDIS_AGREEMENT + redissonProperties.getHost() + ":" + redissonProperties.getPort());
 
         if (StringUtils.isNotBlank(redissonProperties.getPassword())) {
             singleServerConfig.setPassword(redissonProperties.getPassword());
@@ -64,7 +66,7 @@ public class RedissonClientConfig {
     @ConditionalOnProperty(name = "cxj.redisson.cluster-addresses")
     public RedissonClient redissonCluster() {
 
-        String[] nodes = Arrays.stream(redissonProperties.getClusterAddresses().split(",")).map(r -> "redis://" + r).toArray(String[]::new);
+        String[] nodes = Arrays.stream(redissonProperties.getClusterAddresses().split(",")).map(r -> REDIS_AGREEMENT + r).toArray(String[]::new);
 
         Config config = new Config();
         ClusterServersConfig clusterServersConfig = config.useClusterServers()
@@ -89,7 +91,7 @@ public class RedissonClientConfig {
     @ConditionalOnProperty(name = "cxj.redisson.sentinel-addresses")
     public RedissonClient redissonSentinel() {
 
-        String[] nodes = Arrays.stream(redissonProperties.getSentinelAddresses().split(",")).map(r -> "redis://" + r).toArray(String[]::new);
+        String[] nodes = Arrays.stream(redissonProperties.getSentinelAddresses().split(",")).map(r -> REDIS_AGREEMENT + r).toArray(String[]::new);
 
         Config config = new Config();
         SentinelServersConfig serverConfig = config.useSentinelServers().addSentinelAddress(nodes)
@@ -107,10 +109,9 @@ public class RedissonClientConfig {
 
     @Bean
     @ConditionalOnBean(RedissonClient.class)
-    public RedissonRedisService redissonRedisService(RedissonClient redissonClient){
+    public RedissonRedisService redissonRedisService(RedissonClient redissonClient) {
         return new RedissonRedisService(redissonClient);
     }
-
 
 
 }

@@ -1,6 +1,5 @@
 package com.cxj.link.model;
 
-
 import java.io.Serializable;
 
 /**
@@ -17,7 +16,6 @@ public class ApiResultModel<T> implements Serializable {
     public static final String MSG_ERROR_DESC = "系统忙！";
     public static final Integer ILLEGAL = -2;
     public static final String MSG_ILLEGAL_DESC = "参数不正确！";
-
 
     private int code = 0;
     private String msg = MSG_SUCCESS_DESC;

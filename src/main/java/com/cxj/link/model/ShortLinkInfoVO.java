@@ -1,6 +1,5 @@
 package com.cxj.link.model;
 
-
 import java.util.Date;
 
 /**

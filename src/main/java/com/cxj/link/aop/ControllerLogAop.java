@@ -42,16 +42,17 @@ public class ControllerLogAop {
     public static final String POINT_STRING = "@within(com.cxj.link.annotation.LogParamsResponse) || @annotation(com.cxj.link.annotation.LogParamsResponse)";
 
     @Pointcut(POINT_STRING)
-    public void pointcut() {
+    public void pointcut() { // default implementation ignored
     }
 
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Instant begin = new Date().toInstant();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = null;
+        HttpServletRequest httpServletRequest = null;
+
         if (attributes != null) {
-            request = attributes.getRequest();
+            httpServletRequest = attributes.getRequest();
         }
 
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -84,7 +85,7 @@ public class ControllerLogAop {
         if (logParamsResponse.request()) {
             if (isController) {
                 log.info("[接口调用开始] requestUrI:{},参数名:{},传参:{}"
-                        , JSON.toJSONString(request.getRequestURI())
+                        , JSON.toJSONString(httpServletRequest == null ? "" : httpServletRequest.getRequestURI())
                         , JSON.toJSONString(methodSignature.getParameterNames())
                         , JSON.toJSONString(joinPoint.getArgs(), SerializerFeature.IgnoreNonFieldGetter));
             } else {
@@ -103,7 +104,7 @@ public class ControllerLogAop {
         if (logParamsResponse.response()) {
             if (isController) {
                 log.info("[接口调用结束] requestUrI:{},参数名:{},result:{},耗时:{}"
-                        , JSON.toJSONString(request.getRequestURI())
+                        , JSON.toJSONString(httpServletRequest == null ? "" : httpServletRequest.getRequestURI())
                         , JSON.toJSONString(methodSignature.getParameterNames())
                         , JSON.toJSONString(result)
                         , Duration.between(begin, end).toMillis());
@@ -144,7 +145,7 @@ public class ControllerLogAop {
                     , pjp.getSignature().getName()
                     , LogExceptionStackTrace.erroStackTrace(ex));
 
-            log.warn(errorMsg);
+            log.error(errorMsg);
         }
     }
 

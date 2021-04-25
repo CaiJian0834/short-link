@@ -188,7 +188,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             resultApiDTO.setUrl(entity.getHashUrl());
             resultApiDTO.setHash(entity.getHashValue());
             return ApiResultModel.success(resultApiDTO);
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             log.error("短链接生成失败，e={}", LogExceptionStackTrace.erroStackTrace(e));
             return ApiResultModel.error("短链接生成失败，请重试!");
         } finally {

@@ -1,6 +1,5 @@
 package com.cxj.link.request;
 
-
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
