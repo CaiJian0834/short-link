@@ -122,7 +122,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
         while (true) {
             if (count > CXJ_SHORT_LINK_RETRY_NUMBER) {
-                return ApiResultModel.error("超过最大重试次数，请稍后重新请求");
+                return ApiResultModel.ERROR("超过最大重试次数，请稍后重新请求");
             }
 
             hash = urlToHash(url);
@@ -139,7 +139,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                 ShortLinkResultVO resultApiDTO = new ShortLinkResultVO();
                 resultApiDTO.setUrl(dbShortUrl.getHashUrl());
                 resultApiDTO.setHash(dbShortUrl.getHashValue());
-                return ApiResultModel.success(resultApiDTO);
+                return ApiResultModel.SUCCESS(resultApiDTO);
             } else {
                 // 添加后缀 进行重试
                 url += URL_SUFFIX;
@@ -161,10 +161,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                     ShortLinkResultVO resultApiDTO = new ShortLinkResultVO();
                     resultApiDTO.setUrl(dbShortUrl.getHashUrl());
                     resultApiDTO.setHash(dbShortUrl.getHashValue());
-                    return ApiResultModel.success(resultApiDTO);
+                    return ApiResultModel.SUCCESS(resultApiDTO);
                 } else {
                     log.error("短链接生成失败");
-                    return ApiResultModel.error("短链接生成失败，请重试!");
+                    return ApiResultModel.ERROR("短链接生成失败，请重试!");
                 }
             }
 
@@ -187,10 +187,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             ShortLinkResultVO resultApiDTO = new ShortLinkResultVO();
             resultApiDTO.setUrl(entity.getHashUrl());
             resultApiDTO.setHash(entity.getHashValue());
-            return ApiResultModel.success(resultApiDTO);
+            return ApiResultModel.SUCCESS(resultApiDTO);
         } catch (InterruptedException e) {
             log.error("短链接生成失败，e={}", LogExceptionStackTrace.erroStackTrace(e));
-            return ApiResultModel.error("短链接生成失败，请重试!");
+            return ApiResultModel.ERROR("短链接生成失败，请重试!");
         } finally {
             lock.unlock();
         }
@@ -202,12 +202,12 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
         if (StringUtils.isEmpty(hash)) {
             log.warn("参数错误，hashValue不能为空");
-            return ApiResultModel.error("参数错误");
+            return ApiResultModel.ERROR("参数错误");
         }
 
         ShortLinkInfoVO vo = getReallyByHash(hash);
 
-        return ApiResultModel.success(vo);
+        return ApiResultModel.SUCCESS(vo);
     }
 
     @ShardingDataSource(db = ShardingDataSource.READ)
@@ -239,22 +239,22 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         // 数据校验
         if (StringUtils.isEmpty(dto.getUrl())) {
             log.warn("参数错误，Url 为空,dto={}", JSON.toJSONString(dto));
-            return ApiResultModel.error("参数错误，Url 为空");
+            return ApiResultModel.ERROR("参数错误，Url 为空");
         }
 
         // 有效期
         if (dto.getEndTime() != null && dto.getEndTime() <= 0) {
             log.warn("参数错误，有效期不能小于等于0,dto={}", JSON.toJSONString(dto));
-            return ApiResultModel.error("参数错误，有效期不能小于等于0");
+            return ApiResultModel.ERROR("参数错误，有效期不能小于等于0");
         }
 
         // 验证url地址是否合法
         if (!isValidUrl(dto.getUrl())) {
             log.warn("无效的url:[{}]", dto.getUrl());
-            return ApiResultModel.error("无效的url");
+            return ApiResultModel.ERROR("无效的url");
         }
 
-        return ApiResultModel.success();
+        return ApiResultModel.SUCCESS();
     }
 
     /**

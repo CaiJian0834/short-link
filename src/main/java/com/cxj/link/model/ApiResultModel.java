@@ -8,11 +8,11 @@ import java.io.Serializable;
  * @author cxj
  * @emall 735374036@qq.com
  */
-public class ApiResultModel<T> implements Serializable {
+public class ApiResultModel<T> {
     private static final long serialVersionUID = 5576237395711742681L;
-    public static final Integer SUCCESS = 0;
+    public static final Integer SUCCESS_CODE = 0;
     public static final String MSG_SUCCESS_DESC = "操作成功！";
-    public static final Integer ERROR = -1;
+    public static final Integer ERROR_CODE = -1;
     public static final String MSG_ERROR_DESC = "系统忙！";
     public static final Integer ILLEGAL = -2;
     public static final String MSG_ILLEGAL_DESC = "参数不正确！";
@@ -32,7 +32,7 @@ public class ApiResultModel<T> implements Serializable {
     }
 
     public ApiResultModel(T data) {
-        this.code = SUCCESS;
+        this.code = SUCCESS_CODE;
         this.msg = MSG_SUCCESS_DESC;
         this.data = data;
     }
@@ -65,11 +65,6 @@ public class ApiResultModel<T> implements Serializable {
         return String.valueOf(System.currentTimeMillis());
     }
 
-    @Override
-    public String toString() {
-        return "Result [code=" + this.code + ", msg=" + this.msg + "]";
-    }
-
     public int getStamp() {
         return this.stamp;
     }
@@ -78,32 +73,29 @@ public class ApiResultModel<T> implements Serializable {
         this.stamp = stamp;
     }
 
-    public static <T> ApiResultModel<T> success() {
-        return new ApiResultModel();
+    public static <T> ApiResultModel<T> SUCCESS() {
+        return new ApiResultModel<>();
     }
 
-    public static <T> ApiResultModel<T> success(T object) {
-        return new ApiResultModel(0, MSG_SUCCESS_DESC, object);
+    public static <T> ApiResultModel<T> SUCCESS(T object) {
+        return new ApiResultModel<>(0, MSG_SUCCESS_DESC, object);
     }
 
-    public static <T> ApiResultModel<T> success1(T object) {
-        return new ApiResultModel(1, MSG_SUCCESS_DESC, object);
+    public static <T> ApiResultModel<T> ERROR(String msg) {
+        return new ApiResultModel<>(ERROR_CODE, msg, null);
     }
 
-    public static <T> ApiResultModel<T> successMsg(String msg) {
-        return new ApiResultModel(1, msg, null);
-    }
-
-    public static <T> ApiResultModel<T> error(String msg) {
-        return new ApiResultModel(ERROR, msg, null);
-    }
-
-    public static <T> ApiResultModel<T> error(int code, String msg) {
-        return new ApiResultModel(code, msg, null);
+    public static <T> ApiResultModel<T> ERROR(int code, String msg) {
+        return new ApiResultModel<>(code, msg, null);
     }
 
     public boolean isSuccess() {
-        return this.getCode() == ApiResultModel.SUCCESS;
+        return ApiResultModel.SUCCESS_CODE.equals(this.getCode());
+    }
+
+    @Override
+    public String toString() {
+        return "Result [code=" + this.code + ", msg=" + this.msg + "]";
     }
 }
 
