@@ -169,7 +169,6 @@ public class DataBaseDataSourceInitConfig {
         List<String> connectionInitSqls = new ArrayList<>();
         connectionInitSqls.add("set names utf8mb4");
         druidDataSource.setConnectionInitSqls(connectionInitSqls);
-
         return druidDataSource;
     }
 

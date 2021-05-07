@@ -7,7 +7,7 @@ package com.cxj.link.database.ds;
  */
 public class DataSourceContext {
 
-    private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
+    private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
     public static void setCustomerType(String customerType) {
         contextHolder.set(customerType);

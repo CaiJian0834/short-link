@@ -77,7 +77,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     @Override
     public String urlToHash(String url) {
         if (StringUtils.isEmpty(url)) {
-            throw new RuntimeException("请输入正确url");
+            throw new IllegalArgumentException("请输入正确url");
         }
         long hash = MurmurHash3.hash32x86(url.getBytes());
         return MathUtils._10_to_62(hash);
@@ -190,6 +190,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             return ApiResultModel.SUCCESS(resultApiDTO);
         } catch (InterruptedException e) {
             log.error("短链接生成失败，e={}", LogExceptionStackTrace.erroStackTrace(e));
+            Thread.currentThread().interrupt();
             return ApiResultModel.ERROR("短链接生成失败，请重试!");
         } finally {
             lock.unlock();
@@ -234,7 +235,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
      * @param dto
      * @return
      */
-    private ApiResultModel verify(ShortLinkRequestDTO dto) {
+    private ApiResultModel<Object> verify(ShortLinkRequestDTO dto) {
 
         // 数据校验
         if (StringUtils.isEmpty(dto.getUrl())) {
