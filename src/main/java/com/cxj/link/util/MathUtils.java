@@ -1,5 +1,7 @@
 package com.cxj.link.util;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 /**
@@ -19,15 +21,15 @@ public class MathUtils {
      */
     public static String _10_to_62(Long number) {
         Long rest = Math.abs(number);
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> deque = new ArrayDeque<>();
         StringBuilder result = new StringBuilder(0);
         while (rest != 0) {
-            int i = new Long((rest - (rest / 62) * 62)).intValue();
-            stack.add(charSet[i]);
+            int i = Long.valueOf((rest - (rest / 62) * 62)).intValue();
+            deque.push(charSet[i]);
             rest = rest / 62;
         }
-        for (; !stack.isEmpty(); ) {
-            result.append(stack.pop());
+        for (; !deque.isEmpty(); ) {
+            result.append(deque.pop());
         }
 
         return result.toString();
