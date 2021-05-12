@@ -2,7 +2,6 @@ package com.cxj.link.util;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Stack;
 
 /**
  * 进制转换

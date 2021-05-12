@@ -10,38 +10,31 @@ import java.io.StringWriter;
  * @author caijian
  */
 public class LogExceptionStackTrace {
-    public LogExceptionStackTrace() {
+
+    private LogExceptionStackTrace() {
     }
 
-    public static Object erroStackTrace(Object obj) {
-        if (obj instanceof Exception) {
-            Exception eObj = (Exception) obj;
-            StringWriter sw = null;
-            PrintWriter pw = null;
+    public static Object erroStackTrace(Object object) {
+        if (object instanceof Exception) {
+            Exception exception = (Exception) object;
 
-            Object var5;
-            try {
-                sw = new StringWriter();
-                pw = new PrintWriter(sw);
+            Object value;
+
+            try (StringWriter sw = new StringWriter();
+                 PrintWriter pw = new PrintWriter(sw)) {
+
                 String exceptionStack = "\r\n";
-                eObj.printStackTrace(pw);
+                exception.printStackTrace(pw);
                 exceptionStack = sw.toString();
-                String var17 = exceptionStack;
-                return var17;
-            } catch (Exception var15) {
-                var15.printStackTrace();
-                var5 = obj;
-            } finally {
-                try {
-                    pw.close();
-                    sw.close();
-                } catch (IOException var14) {
-                    var14.printStackTrace();
-                }
+                String string = exceptionStack;
+                return string;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                value = object;
             }
-            return var5;
+            return value;
         } else {
-            return obj;
+            return object;
         }
     }
 

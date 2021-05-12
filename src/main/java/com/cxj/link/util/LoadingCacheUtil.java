@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 本地缓存工具类
  * guava实现
+ * @author caijian
  */
 @Slf4j
 public class LoadingCacheUtil {
