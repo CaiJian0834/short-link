@@ -18,6 +18,9 @@ public class LoadingCacheUtil {
 
     private static LoadingCache<String, String> loadingCache;
 
+    private LoadingCacheUtil() {
+    }
+
     static {
         loadingCache = CacheBuilder.newBuilder()
                 .expireAfterAccess(NumberConstant.REDIS_EXPIRE_MINUTE, TimeUnit.SECONDS)

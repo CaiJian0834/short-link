@@ -6,6 +6,9 @@ package com.cxj.link.constant;
  */
 public class RedisKeyConstant {
 
+    private RedisKeyConstant() {
+    }
+
     /**
      * 短链接
      * 已生成缓存

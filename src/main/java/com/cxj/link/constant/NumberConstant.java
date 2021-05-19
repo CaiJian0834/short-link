@@ -6,6 +6,9 @@ package com.cxj.link.constant;
  */
 public class NumberConstant {
 
+    private NumberConstant() {
+    }
+
     /**
      * status
      */

@@ -12,6 +12,9 @@ public class MathUtils {
 
     private static char[] charSet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
+    private MathUtils() {
+    }
+
     /**
      * 将10进制转化为62进制
      *
@@ -30,8 +33,6 @@ public class MathUtils {
         for (; !deque.isEmpty(); ) {
             result.append(deque.pop());
         }
-
         return result.toString();
-
     }
 }
